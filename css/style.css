@@ -6,20 +6,26 @@ body {
 
 .container {
     background-color: limegreen;
-    height: 100vh;
+    max-width: 33em;
+    min-width: 9em;
+    margin-inline: auto;
+    justify-content: space-around;
 }
 
 
 
 /* Grid */
 .grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 1em;
+    padding: 1em;
+    justify-content: space-around;
 }
 
 
 .card {
-    border-radius: 0.5em;
+    border-radius: 0.3em;
     height: 10em;
     width: 7em;
     background-color: aqua;
