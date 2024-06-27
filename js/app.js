@@ -49,7 +49,7 @@
             return this.#isFaceUp;
         }
 
-        get cardSymbol() {
+        get symbol() {
             return this.#symbol;
         }
     }
@@ -62,7 +62,7 @@
         game.remainingCards.forEach(card => {
             const li = document.createElement('li');
             const span = document.createElement('span');
-            span.innerText = card.cardSymbol;
+            // span.innerText = card.symbol;
             li.append(span);
             docFragment.appendChild(li);
         });

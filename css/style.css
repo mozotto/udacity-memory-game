@@ -1,4 +1,15 @@
 /* General */
+:root {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+
 body {
     background-image: url(../img/geometry2.png);
 }
@@ -33,6 +44,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid aqua;
 }
 
 
