@@ -3,7 +3,9 @@
         /** The symbols displayed on the cards */
         static #symbols = ['⚽', '⚾', '🏀', '🏈', '🏐', '🥎', '🥭', '🍌'];
 
-        /** holds the cards that are still left to play */
+        /** 
+         * holds the cards that are still left to play 
+         * */
         #remainingCards
 
         constructor() {
@@ -24,7 +26,11 @@
             return MemoryGame.#symbols.flatMap(symbol => [new Card(symbol), new Card(symbol)]);
         }
 
-        get remainingCards() {
+        /**
+         * Returns the deck of cards
+         * @returns {Array<Card>}
+         */
+        get cards() {
             return this.#remainingCards;
         }
     }
@@ -33,50 +39,90 @@
         #isFaceUp = false;
         #symbol
 
+        /**
+         * Create a new Card
+         * @param {string} symbol - The symbol displayed when the card is up
+         */
         constructor(symbol) {
             this.#symbol = symbol;
         }
 
+        /** Turn the card face up */
         turnUp() {
             this.#isFaceUp = true;
         }
 
+        /** Turn the card face down */
         turnDown() {
             this.#isFaceUp = false;
         }
 
+        /**
+         * Check if the card is facing up
+         * @returns {boolean}
+         */
         get isFaceUp() {
             return this.#isFaceUp;
         }
 
+        /**
+         * Get the symbol shown when card is face up
+         * @returns {string}
+         */
         get symbol() {
             return this.#symbol;
         }
     }
 
     const grid = document.querySelector('#grid');
+    const game = new MemoryGame();
 
-    function setUp() {
-        const game = new MemoryGame();
+    /** Initializes the grid of cards */
+    function setUpGrid() {
         const docFragment = new DocumentFragment(); // used to hold all the li elements
-        game.remainingCards.forEach(card => {
+        game.cards.forEach(card => {
             const li = document.createElement('li');
+            li.card = card;
+            li.addEventListener('click', cardClickHandler);
             const span = document.createElement('span');
-            // span.innerText = card.symbol;
             li.append(span);
             docFragment.appendChild(li);
         });
         grid.appendChild(docFragment); // attach the list items to the ul
     }
 
-    setUp();
+    /**
+     * Click handler for a card
+     * @param {HTMLLIElement} cardItem
+     */
+    function cardClickHandler(evt) {
+        const cardItem = evt.currentTarget;
+        if (cardItem.card.isFaceUp) {
+            turnCardDown(cardItem);
+        } else {
+            turnCardUp(cardItem);
+        }
+    }
+
+    /**
+     * Turn a card face up
+     * @param {HTMLLIElement} cardItem
+     */
+    function turnCardUp(cardItem) {
+        cardItem.card.turnUp();
+        cardItem.querySelector('span').innerText = cardItem.card.symbol;
+    }
+
+    /**
+     * Turn a card face down
+     * @param {HTMLLIElement } cardItem
+     */
+    function turnCardDown(cardItem, card) {
+        cardItem.card.turnDown();
+        cardItem.querySelector('span').innerText = '';
+    }
+
+    setUpGrid();
+
 
 })();
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-    }
-    return array;
-}
