@@ -76,6 +76,7 @@
 
     const grid = document.querySelector('#grid');
     const game = new MemoryGame();
+    let selected;
 
     /** Initializes the grid of cards */
     function setUpGrid() {
@@ -93,33 +94,29 @@
 
     /**
      * Click handler for a card
-     * @param {HTMLLIElement} cardItem
+     * @param {Event} evt
      */
     function cardClickHandler(evt) {
         const cardItem = evt.currentTarget;
-        if (cardItem.card.isFaceUp) {
-            turnCardDown(cardItem);
+        const card = cardItem.card;
+        if (card.isFaceUp) {
+            card.turnDown();
         } else {
-            turnCardUp(cardItem);
+            card.turnUp();
         }
+        paintCard(cardItem);
     }
 
     /**
      * Turn a card face up
      * @param {HTMLLIElement} cardItem
      */
-    function turnCardUp(cardItem) {
-        cardItem.card.turnUp();
-        cardItem.querySelector('span').innerText = cardItem.card.symbol;
-    }
-
-    /**
-     * Turn a card face down
-     * @param {HTMLLIElement } cardItem
-     */
-    function turnCardDown(cardItem, card) {
-        cardItem.card.turnDown();
-        cardItem.querySelector('span').innerText = '';
+    function paintCard(cardItem) {
+        if (cardItem.card.isFaceUp) {
+            cardItem.querySelector('span').innerText = cardItem.card.symbol;
+        } else {
+            cardItem.querySelector('span').innerText = '';
+        }
     }
 
     setUpGrid();
